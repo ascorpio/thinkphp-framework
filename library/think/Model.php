@@ -110,6 +110,8 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
     protected $resultSetType;
     // 关联自动写入
     protected $relationWrite;
+    //软删除字段默认值
+    protected $defaultSoftDelete;
 
     /**
      * 初始化过的模型.
@@ -488,10 +490,10 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
                     break;
             }
         } elseif (is_string($this->autoWriteTimestamp) && in_array(strtolower($this->autoWriteTimestamp), [
-            'datetime',
-            'date',
-            'timestamp',
-        ])
+                'datetime',
+                'date',
+                'timestamp',
+            ])
         ) {
             $value = $this->formatDateTime(time(), $this->dateFormat);
         } else {
@@ -605,10 +607,10 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
             $value = $this->readTransform($value, $this->type[$name]);
         } elseif (in_array($name, [$this->createTime, $this->updateTime])) {
             if (is_string($this->autoWriteTimestamp) && in_array(strtolower($this->autoWriteTimestamp), [
-                'datetime',
-                'date',
-                'timestamp',
-            ])
+                    'datetime',
+                    'date',
+                    'timestamp',
+                ])
             ) {
                 $value = $this->formatDateTime(strtotime($value), $this->dateFormat);
             } else {
